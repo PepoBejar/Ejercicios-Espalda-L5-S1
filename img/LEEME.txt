@@ -1,0 +1,9 @@
+Esta carpeta está reservada para futuras imágenes ilustrativas de los ejercicios.
+
+Formatos recomendados:
+- Imágenes: .webp o .jpg (máximo 200KB cada una)
+- Nombre de archivo: nombre-del-ejercicio.webp
+  Ejemplo: prono-codos.webp, puente-gluteos.webp
+
+Para añadir una imagen a un ejercicio, edita index.html y añade dentro del .ex-body:
+<img src="img/nombre-ejercicio.webp" alt="Descripción" style="width:100%;border-radius:6px;margin-top:0.75rem">
