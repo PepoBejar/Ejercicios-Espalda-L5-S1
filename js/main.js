@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
   updateProgress();
   initBackTop();
 });
-
+/*
 // ── Timer ──
 function startTimer(btn, seconds) {
   const disp = btn.nextElementSibling;
@@ -66,6 +66,55 @@ function startTimer(btn, seconds) {
     }
   }, 1000);
 }
+*/
+
+// ── Timer con Audio ──
+function startTimer(btn, seconds) {
+  const disp = btn.nextElementSibling;
+
+  if (btn.classList.contains('running')) {
+    clearInterval(btn._iv);
+    btn.classList.remove('running', 'done');
+    btn.textContent = '⏱ Reiniciar';
+    disp.classList.remove('on');
+    return;
+  }
+
+  // 1. CREAR Y DESBLOQUEAR EL AUDIO AQUÍ (En el clic del usuario)
+  const alarmSound = new Audio('ruta/tu-sonido.mp3'); 
+  alarmSound.play().then(() => {
+    // Lo pausamos y rebobinamos al instante. 
+    // Esto ya le dice a Safari: "El usuario autorizó este audio".
+    alarmSound.pause();
+    alarmSound.currentTime = 0;
+  }).catch(err => console.log("Error al pre-activar audio:", err));
+
+  btn.classList.add('running');
+  btn.classList.remove('done');
+  disp.classList.add('on');
+
+  let r = seconds;
+  disp.textContent = fmt(r);
+  clearInterval(btn._iv);
+
+  btn._iv = setInterval(() => {
+    r--;
+    disp.textContent = fmt(r);
+    if (r <= 0) {
+      clearInterval(btn._iv);
+      btn.classList.remove('running');
+      btn.classList.add('done');
+      btn.textContent   = '✓ Completado';
+      disp.textContent  = '¡Listo!';
+      
+      // 2. REPRODUCIR EL AUDIO AQUÍ (Ahora Safari sí te dejará)
+      alarmSound.play().catch(err => console.error("Error al reproducir:", err));
+
+      if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
+    }
+  }, 1000);
+}
+
 
 function fmt(s) {
   const m  = Math.floor(s / 60);
