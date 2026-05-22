@@ -3,7 +3,7 @@
    ================================================ */
 
 // ── Progress tracking ──
-const TOTAL_EX = 15;
+const TOTAL_EX = 18;
 
 function updateProgress() {
   const open = document.querySelectorAll('.ex.open').length;
